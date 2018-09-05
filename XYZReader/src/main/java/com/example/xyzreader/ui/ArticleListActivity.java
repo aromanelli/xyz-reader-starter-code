@@ -11,13 +11,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.format.DateUtils;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -69,13 +70,6 @@ public class ArticleListActivity
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         mSwipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
-//        int offsetStart = (int) getResources().getDimension(R.dimen.app_bar_height);
-//        int offsetEnd = offsetStart + 100; // TODO AOR CODE THIS, AND NO EXPAND TOOLBAR???
-//        mSwipeRefreshLayout.setProgressViewOffset(
-//                false,
-//                offsetStart,
-//                offsetEnd
-//        );
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -84,6 +78,7 @@ public class ArticleListActivity
         });
 
         mRecyclerView = findViewById(R.id.recycler_view);
+        // mRecyclerView.addItemDecoration( new DividerItemDecoration(this, LinearLayoutManager.VERTICAL) );
         getLoaderManager().initLoader(0, null, this);
 
         if (savedInstanceState == null) {
