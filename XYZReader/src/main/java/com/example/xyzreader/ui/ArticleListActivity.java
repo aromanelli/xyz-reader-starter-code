@@ -48,16 +48,16 @@ public class ArticleListActivity
 
     private static final String TAG = ArticleListActivity.class.toString();
 
+    static final SimpleDateFormat FMT_DATE =
+            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss", Locale.getDefault());
+    // Use default locale format
+    static final SimpleDateFormat FMT_OUTPUT = (SimpleDateFormat) SimpleDateFormat.getDateInstance();
+    // Most time functions can only handle 1902 - 2037
+    static final GregorianCalendar START_OF_EPOCH = new GregorianCalendar(2,1,1);
+
     private Toolbar mToolbar;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
-
-    private SimpleDateFormat dateFormat =
-            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss", Locale.getDefault());
-    // Use default locale format
-    private SimpleDateFormat outputFormat = (SimpleDateFormat) SimpleDateFormat.getDateInstance();
-    // Most time functions can only handle 1902 - 2037
-    private GregorianCalendar START_OF_EPOCH = new GregorianCalendar(2,1,1);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -195,7 +195,7 @@ public class ArticleListActivity
         private Date parsePublishedDate() {
             try {
                 String date = mCursor.getString(ArticleLoader.Query.PUBLISHED_DATE);
-                return dateFormat.parse(date);
+                return FMT_DATE.parse(date);
             } catch (ParseException ex) {
                 Log.e(TAG, ex.getMessage());
                 Log.i(TAG, "passing today's date");
@@ -219,7 +219,7 @@ public class ArticleListActivity
                                 + mCursor.getString(ArticleLoader.Query.AUTHOR)));
             } else {
                 holder.subtitleView.setText(Html.fromHtml(
-                        outputFormat.format(publishedDate)
+                        FMT_OUTPUT.format(publishedDate)
                         + "<br/>" + " by "
                         + mCursor.getString(ArticleLoader.Query.AUTHOR)));
             }
